@@ -1,5 +1,5 @@
 import mongoose, { ConnectOptions } from "mongoose";
-// tes
+
 const MONGO_URI = process.env.MONGO_URI as string;
 
 if (!MONGO_URI) {
