@@ -30,7 +30,7 @@ export const useAuth = (): UseAuthReturn => {
   }, [dispatch]);
 
   const handleLogin = () => {
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   const handleLogout = () => {
