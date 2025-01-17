@@ -2,6 +2,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { RoleType } from "@/types";
 import { Form } from "@/components/ui/form";
 import {
   Card,
@@ -25,11 +26,9 @@ export function LoginForm({
     setValue,
   } = methods;
 
-  const [role, setRole] = React.useState<"student" | "teacher" | "admin">(
-    "student",
-  );
+  const [role, setRole] = React.useState<RoleType>("student");
 
-  const handleRoleChange = (value: "student" | "teacher" | "admin") => {
+  const handleRoleChange = (value: RoleType) => {
     setRole(value);
     setValue("role", value);
   };

@@ -1,4 +1,3 @@
-export * from "./userTypes";
-export * from "./classTypes";
-export * from "./attendanceTypes";
+export * from "./authSliceTypes";
 export * from "./generalTypes";
+export * from "./RoleType";

@@ -1,32 +1,55 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { getLocalStorage, removeLocalStorage } from "@/utils/storage";
+import { LOCAL_STORAGE_USER_KEY } from "@/constants";
+import { RootStateType } from "@/redux/store";
 import { setLoginState, logout } from "@/redux/slices/authSlice";
+import { RoleType, IAuthState } from "@/types";
 
-interface UseAuthReturn {
+interface IUseAuthReturn {
   isLoggedIn: boolean;
-  role: string | null;
+  role: RoleType | null;
+  _id: string | null;
+  username: string | null;
+  email: string | null;
   handleLogin: () => void;
   handleLogout: () => void;
   redirectToDashboard: () => void;
   redirectToPath: (path: string) => void;
 }
 
-export const useAuth = (): UseAuthReturn => {
+const updateAuthState = (dispatch: any, user: IAuthState | null) => {
+  const userState = user
+    ? {
+        isLoggedIn: true,
+        role: user.role,
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+      }
+    : {
+        isLoggedIn: false,
+        role: null,
+        _id: null,
+        username: null,
+        email: null,
+      };
+
+  dispatch(setLoginState(userState));
+};
+
+export const useAuth = (): IUseAuthReturn => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { isLoggedIn, role } = useSelector((state: RootState) => state.auth);
+  const { isLoggedIn, role, _id, username, email } = useSelector(
+    (state: RootStateType) => state.auth,
+  );
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "null");
-
-    if (user) {
-      dispatch(setLoginState({ isLoggedIn: true, role: user.role }));
-    } else {
-      dispatch(setLoginState({ isLoggedIn: false, role: null }));
-    }
+    const user = getLocalStorage(LOCAL_STORAGE_USER_KEY) as IAuthState;
+    updateAuthState(dispatch, user);
   }, [dispatch]);
 
   const handleLogin = () => {
@@ -35,7 +58,7 @@ export const useAuth = (): UseAuthReturn => {
 
   const handleLogout = () => {
     dispatch(logout());
-    localStorage.removeItem("user");
+    removeLocalStorage(LOCAL_STORAGE_USER_KEY);
     router.push("/");
   };
 
@@ -65,6 +88,9 @@ export const useAuth = (): UseAuthReturn => {
   return {
     isLoggedIn,
     role,
+    _id,
+    username,
+    email,
     handleLogin,
     handleLogout,
     redirectToDashboard,
