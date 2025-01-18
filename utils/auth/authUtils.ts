@@ -2,6 +2,7 @@ import { COOKIE_NAME, JWT_SECRET_KEY } from "@/constants";
 import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { RoleType } from "@/types";
+import bcrypt from "bcrypt";
 
 export interface IUserJwtPayload {
   jti: string;
@@ -10,6 +11,20 @@ export interface IUserJwtPayload {
   username: string;
   email: string;
   role: RoleType;
+}
+
+export async function hashPassword(password: string): Promise<string> {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  return hashedPassword;
+}
+
+export async function verifyPassword(
+  plainPassword: string,
+  hashedPassword: string,
+): Promise<boolean> {
+  const isMatch = await bcrypt.compare(plainPassword, hashedPassword);
+  return isMatch;
 }
 
 function getEnvVariable(name: string): string | undefined {

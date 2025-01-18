@@ -1,18 +1,6 @@
-import { IUser } from "@/features/users/types";
+import { IUser } from "@/types";
 import { connectToDatabase } from "@/config";
-import { User } from "@/features/users/models";
-
-export async function createUser(data: IUser) {
-  try {
-    await connectToDatabase();
-
-    const newUser = await User.create(data);
-
-    return newUser;
-  } catch (error) {
-    throw new Error("Error creating user");
-  }
-}
+import { User } from "@/models";
 
 export async function getUsers() {
   try {
