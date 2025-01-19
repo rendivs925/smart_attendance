@@ -6,11 +6,11 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "tauri": "tauri"
+    "lint": "next lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
+    "@mapbox/node-pre-gyp": "^1.0.11",
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-select": "^2.1.4",
     "@radix-ui/react-slot": "^1.1.1",
@@ -18,12 +18,13 @@
     "aws-sdk": "^2.1692.0",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "crypto-browserify": "^3.12.1",
     "html-loader": "^5.1.0",
     "jose": "^5.9.6",
     "lucide-react": "^0.469.0",
-    "mapbox": "1.0.0-beta10",
     "mock-aws-s3": "^4.0.2",
     "mongoose": "^8.9.5",
     "nanoid": "^5.0.9",
@@ -38,8 +39,6 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.18.0",
-    "@tauri-apps/cli": "^2.2.5",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.17.14",
     "@types/react": "^18.3.18",
@@ -49,7 +48,6 @@
     "globals": "^15.14.0",
     "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.20.0"
+    "typescript": "^5.7.3"
   }
 }

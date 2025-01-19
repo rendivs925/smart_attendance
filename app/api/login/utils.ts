@@ -2,14 +2,16 @@ import { userSchema, UserSchemaType } from "@/schemas/";
 import { User } from "@/models/";
 import { verifyPassword } from "@/utils/auth";
 import { connectToDatabase } from "@/config";
+import { IUser } from "@/types";
 
 export async function verifyUserCredentials(
   role: string,
   identifier: string,
   password: string,
-): Promise<boolean> {
+): Promise<{ isValid: boolean; user: Partial<IUser> | null }> {
   try {
     await connectToDatabase();
+
     const user = await User.findOne({
       role,
       [`${role === "student" ? "nim" : role === "teacher" ? "nidn" : "email"}`]:
@@ -17,13 +19,15 @@ export async function verifyUserCredentials(
     });
 
     if (!user || !(await verifyPassword(password, user.password_hash))) {
-      return false;
+      return { isValid: false, user: null };
     }
 
-    return true;
+    const { password_hash, ...filteredUser } = user.toObject();
+
+    return { isValid: true, user: filteredUser };
   } catch (error) {
     console.error("Error verifying user credentials:", error);
-    return false;
+    return { isValid: false, user: null };
   }
 }
 

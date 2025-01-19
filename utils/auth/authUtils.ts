@@ -7,7 +7,7 @@ import { nanoid } from "nanoid";
 const MAX_AGE = 60 * 60 * 24;
 import { cookies } from "next/headers";
 import { RoleType } from "@/types";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export interface IUserJwtPayload {
   jti: string;

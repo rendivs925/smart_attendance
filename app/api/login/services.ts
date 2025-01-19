@@ -13,7 +13,11 @@ export async function loginService(data: {
 
   const identifier = resolveIdentifier(role, { email, nim, nidn });
 
-  const isValid = await verifyUserCredentials(role, identifier, password);
+  const { user, isValid } = await verifyUserCredentials(
+    role,
+    identifier,
+    password,
+  );
 
   if (!isValid) {
     throw new Error("Invalid credentials");
@@ -22,5 +26,5 @@ export async function loginService(data: {
   const token = await generateJwt(data as unknown as IUser);
   setAuthCookie(token);
 
-  return { message: "Login successful", role };
+  return { message: "Login successful", user };
 }
