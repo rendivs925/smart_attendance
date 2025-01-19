@@ -8,8 +8,6 @@ export function useLoginForm() {
     defaultValues: {
       role: "student",
       nim: "",
-      nidn: "",
-      email: "",
       password: "",
     },
   });

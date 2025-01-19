@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import axios from "axios";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { RoleType } from "@/types";
@@ -33,9 +34,33 @@ export function LoginForm({
     setValue("role", value);
   };
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    console.log("Submitting form data:", data); // Log data to ensure it's correct
+    try {
+      const response = await axios.post("/api/login", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("Login successful:", response.data);
+      // Handle successful login (e.g., redirect or display a success message)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Login failed:", error.response?.data || error.message);
+        // Handle the error (e.g., display an error message)
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
   };
+
+  // Log errors to debug form validation
+  React.useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      console.log("Form errors:", errors);
+    }
+  }, [errors]);
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -49,7 +74,7 @@ export function LoginForm({
         <CardContent>
           <Form {...methods}>
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(onSubmit)} // Ensure onSubmit is correctly triggered
               className="flex flex-col gap-6"
             >
               <FormFieldComponent

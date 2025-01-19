@@ -1,21 +1,34 @@
 import { connectToDatabase } from "@/config";
 import { User } from "@/models";
 import { IUser } from "@/types";
-import { userSchema } from "@/schemas/";
+import { hashPassword } from "@/utils/auth";
 
-export async function createUser(data: IUser) {
+export async function createUser(data: Partial<IUser> & { password: string }) {
   try {
-    const validatedData = userSchema.parse(data);
+    console.log("Incoming data:", data);
+
+    const { password, ...restData } = data;
+    if (!password) {
+      throw new Error("Password is required");
+    }
+
+    const passwordHash = await hashPassword(password);
+
+    const userToSave = {
+      ...restData,
+      password_hash: passwordHash,
+    };
 
     await connectToDatabase();
 
-    const newUser = await User.create(validatedData);
+    const newUser = await User.create(userToSave);
 
     return newUser;
   } catch (error) {
-    if (error instanceof Error && error.message.includes("Invalid")) {
+    console.error("Error:", error);
+    if (error instanceof Error && error.message.includes("Validation")) {
       throw new Error("Validation error: " + error.message);
     }
-    throw new Error("Error creating user");
+    throw new Error((error as { message: string }).message);
   }
 }

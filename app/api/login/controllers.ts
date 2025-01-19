@@ -1,7 +1,8 @@
 import { validateUserInput } from "./utils";
 import { loginService } from "./services";
+import { IUser } from "@/types";
 
-export async function loginController(data: any) {
+export async function loginController(data: IUser) {
   try {
     const validatedData = validateUserInput(data);
 

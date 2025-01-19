@@ -1,5 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { IUser } from "@/features/users/types";
+import { IUser } from "@/types";
 
 const UserSchema: Schema<IUser> = new Schema(
   {
@@ -11,7 +11,7 @@ const UserSchema: Schema<IUser> = new Schema(
       enum: ["student", "teacher", "admin"],
     },
     email: { type: String, required: true, unique: true },
-    phone: { type: String, required: false },
+    phone: { type: String, required: true },
     nim: {
       type: String,
       unique: true,
