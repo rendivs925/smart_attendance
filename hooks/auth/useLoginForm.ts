@@ -31,14 +31,13 @@ export function useLoginForm() {
     setValue("role", value);
   };
 
-  const onSubmit = async (data: UserSchemaType) => {
+  const onSubmit = async (data: any) => {
+    data.role =
+      data.role.charAt(0).toUpperCase() + data.role.slice(1).toLowerCase();
+
     console.log("Submitting form data:", data);
     try {
-      const response = await axios.post("/api/login", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post("http://localhost:8000/login", data);
 
       const user = response.data;
       console.log("Login successful:", user);
