@@ -8,7 +8,11 @@ const initialState: IAuthState = {
   username: null,
   email: null,
   role: null,
-  isLoggedIn: false,
+  phone: null,
+  nim: null,
+  nidn: null,
+  createdAt: null,
+  updatedAt: null,
 };
 
 const authSlice = createSlice({
@@ -20,7 +24,11 @@ const authSlice = createSlice({
       state.username = action.payload.username;
       state.email = action.payload.email;
       state.role = action.payload.role;
-      state.isLoggedIn = action.payload.isLoggedIn;
+      state.phone = action.payload.phone;
+      state.nim = action.payload.nim;
+      state.nidn = action.payload.nidn;
+      state.createdAt = action.payload.createdAt;
+      state.updatedAt = action.payload.updatedAt;
       setLocalStorage(LOCAL_STORAGE_USER_KEY, state);
     },
     logout: (state) => {
@@ -28,7 +36,11 @@ const authSlice = createSlice({
       state.username = null;
       state.email = null;
       state.role = null;
-      state.isLoggedIn = false;
+      state.phone = null;
+      state.nim = null;
+      state.nidn = null;
+      state.createdAt = null;
+      state.updatedAt = null;
       removeLocalStorage(LOCAL_STORAGE_USER_KEY);
     },
   },

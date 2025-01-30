@@ -5,37 +5,41 @@ import { COOKIE_NAME } from "@/constants";
 export default async function middleware(req: NextRequest) {
   const token = req.cookies.get(COOKIE_NAME)?.value;
 
-  const verifiedToken =
-    token &&
-    (await verifyAuth(token).catch((err) => {
-      console.log("Verification error:", err);
-      return null;
-    }));
+  const verifiedToken = token
+    ? await verifyAuth(token).catch((err) => {
+        console.log("Verification error:", err);
+        return null;
+      })
+    : null;
 
   const { pathname, origin } = req.nextUrl;
-  const userRole = (verifiedToken as IUserJwtPayload)?.role || "user";
+
+  const isPublicPath = pathname.startsWith("/auth");
 
   if (!verifiedToken) {
-    if (pathname.startsWith("/auth")) return NextResponse.next();
+    if (isPublicPath) return NextResponse.next();
     return NextResponse.redirect(new URL("/auth/login", origin));
   }
 
-  if (pathname.startsWith("/admin")) {
-    if (userRole !== "admin")
-      return NextResponse.redirect(new URL("/auth/login", origin));
+  const userRole = (verifiedToken as IUserJwtPayload)?.role || "student";
+
+  const rolePaths: Record<string, string> = {
+    admin: "/admin",
+    teacher: "/teacher",
+    student: "/student",
+  };
+
+  const isUnauthorized =
+    Object.entries(rolePaths).some(
+      ([role, path]) => pathname.startsWith(path) && userRole !== role,
+    ) ||
+    (isPublicPath && pathname !== "/auth/logout");
+
+  if (isUnauthorized && !pathname.startsWith("/auth/login")) {
+    return NextResponse.redirect(new URL("/auth/login", origin));
   }
 
-  if (pathname.startsWith("/teacher")) {
-    if (userRole !== "teacher")
-      return NextResponse.redirect(new URL("/auth/login", origin));
-  }
-
-  if (pathname.startsWith("/student")) {
-    if (userRole !== "student")
-      return NextResponse.redirect(new URL("/auth/login", origin));
-  }
-
-  if (pathname.startsWith("/auth")) {
+  if (verifiedToken && pathname.startsWith("/auth")) {
     return NextResponse.redirect(new URL("/", origin));
   }
 

@@ -7,7 +7,7 @@ const AuthButtons: React.FC = () => {
     useAuth();
 
   return (
-    <div className="flex flex-col items-center sm:flex-row justify-center gap-4">
+    <div className="flex items-start sm:flex-row gap-4">
       {isLoggedIn ? (
         <>
           <Button size="lg" className="w-fit" onClick={redirectToDashboard}>

@@ -5,5 +5,9 @@ export interface IAuthState {
   username: string | null;
   email: string | null;
   role: RoleType | null;
-  isLoggedIn: boolean;
+  phone: string | null;
+  nim: string | null;
+  nidn: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
 }

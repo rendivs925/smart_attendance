@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios"; // Import axios
 import { getLocalStorage, removeLocalStorage } from "@/utils/storage";
 import { LOCAL_STORAGE_USER_KEY } from "@/constants";
 import { RootStateType } from "@/redux/store";
 import { setLoginState, logout } from "@/redux/slices/authSlice";
-import { RoleType, IAuthState } from "@/types";
+import { IAuthState, RoleType } from "@/types";
 
 interface IUseAuthReturn {
   isLoggedIn: boolean;
@@ -22,18 +23,26 @@ interface IUseAuthReturn {
 const updateAuthState = (dispatch: any, user: IAuthState | null) => {
   const userState = user
     ? {
-        isLoggedIn: true,
-        role: user.role,
-        _id: user._id,
-        username: user.username,
-        email: user.email,
+        role: user.role ?? null,
+        _id: user._id ?? null,
+        username: user.username ?? null,
+        email: user.email ?? null,
+        phone: user.phone ?? null,
+        nim: user.nim ?? null,
+        nidn: user.nidn ?? null,
+        createdAt: user.createdAt ?? null,
+        updatedAt: user.updatedAt ?? null,
       }
     : {
-        isLoggedIn: false,
         role: null,
         _id: null,
         username: null,
         email: null,
+        phone: null,
+        nim: null,
+        nidn: null,
+        createdAt: null,
+        updatedAt: null,
       };
 
   dispatch(setLoginState(userState));
@@ -43,9 +52,11 @@ export const useAuth = (): IUseAuthReturn => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { isLoggedIn, role, _id, username, email } = useSelector(
+  const { role, _id, username, email } = useSelector(
     (state: RootStateType) => state.auth,
   );
+
+  const isLoggedIn = Boolean(_id);
 
   useEffect(() => {
     const user = getLocalStorage(LOCAL_STORAGE_USER_KEY) as IAuthState;
@@ -56,13 +67,19 @@ export const useAuth = (): IUseAuthReturn => {
     router.push("/auth/login");
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-    removeLocalStorage(LOCAL_STORAGE_USER_KEY);
-    router.push("/");
+  const handleLogout = async () => {
+    try {
+      await axios.delete("http://localhost:8000/logout");
+
+      dispatch(logout());
+      router.push("/");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   const redirectToDashboard = () => {
+    console.log("role:", role);
     if (!role) {
       console.error("No role defined for user!");
       return;
@@ -74,7 +91,7 @@ export const useAuth = (): IUseAuthReturn => {
       admin: "/admin/dashboard",
     };
 
-    router.push(paths[role] || "/");
+    router.push(paths[role.toLowerCase()] || "/");
   };
 
   const redirectToPath = (path: string) => {
