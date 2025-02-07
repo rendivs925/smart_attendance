@@ -14,7 +14,6 @@ export function useLoginForm() {
     resolver: zodResolver(userSchema),
     defaultValues: {
       role: "student",
-      nim: "",
       password: "",
     },
   });
