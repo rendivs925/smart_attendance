@@ -8,7 +8,7 @@ const UserSchema: Schema<IUser> = new Schema(
     role: {
       type: String,
       required: true,
-      enum: ["student", "teacher", "admin"],
+      enum: ["Student", "Teacher", "Admin"],
     },
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true },
@@ -16,14 +16,14 @@ const UserSchema: Schema<IUser> = new Schema(
       type: String,
       unique: true,
       required: function () {
-        return this.role === "student";
+        return this.role === "Student";
       },
     },
     nidn: {
       type: String,
       unique: true,
       required: function () {
-        return this.role === "teacher";
+        return this.role === "Teacher";
       },
     },
   },

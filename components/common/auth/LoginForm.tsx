@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { useLoginForm } from "@/hooks/auth/useLoginForm";
 import FormFieldComponent from "@/components/ui/FormFieldComponent";
+import { RoleType } from "@/types";
 
 export function LoginForm({
   className,
@@ -49,18 +50,16 @@ export function LoginForm({
                 control={control}
                 errors={errors}
                 value={role}
-                onValueChange={(value) =>
-                  handleRoleChange(value as "student" | "teacher" | "admin")
-                }
+                onValueChange={(value) => handleRoleChange(value as RoleType)}
                 options={[
-                  { value: "student", label: "Student" },
-                  { value: "teacher", label: "Teacher" },
-                  { value: "admin", label: "Admin" },
+                  { value: "Student", label: "Student" },
+                  { value: "Teacher", label: "Teacher" },
+                  { value: "Admin", label: "Admin" },
                 ]}
               />
 
               {/* Conditional Fields Based on Role */}
-              {role === "student" && (
+              {role === "Student" && (
                 <FormFieldComponent
                   name="nim"
                   label="NIM"
@@ -71,7 +70,7 @@ export function LoginForm({
                 />
               )}
 
-              {role === "teacher" && (
+              {role === "Teacher" && (
                 <FormFieldComponent
                   name="nidn"
                   label="NIDN"
@@ -82,7 +81,7 @@ export function LoginForm({
                 />
               )}
 
-              {role === "admin" && (
+              {role === "Admin" && (
                 <FormFieldComponent
                   name="email"
                   label="Email"

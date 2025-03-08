@@ -6,6 +6,7 @@ import { setLoginState } from "@/redux/slices/authSlice";
 import axios from "axios";
 import { userSchema, UserSchemaType } from "@/schemas";
 import { RoleType } from "@/types";
+import { SERVER_URL } from "@/constants";
 
 export function useLoginForm() {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export function useLoginForm() {
   const methods = useForm<UserSchemaType>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      role: "student",
+      role: "Student",
       password: "",
     },
   });
@@ -25,20 +26,17 @@ export function useLoginForm() {
     formState: { errors },
   } = methods;
 
-  const [role, setRole] = useState<RoleType>("student");
+  const [role, setRole] = useState<RoleType>("Student");
 
   const handleRoleChange = (value: RoleType) => {
     setRole(value);
     setValue("role", value);
   };
 
-  const onSubmit = async (data: any) => {
-    data.role =
-      data.role.charAt(0).toUpperCase() + data.role.slice(1).toLowerCase();
-
+  const onSubmit = async (data: UserSchemaType) => {
     console.log("Submitting form data:", data);
     try {
-      const response = await axios.post("http://localhost:8000/login", data, {
+      const response = await axios.post(`${SERVER_URL}/login`, data, {
         withCredentials: true,
       });
 

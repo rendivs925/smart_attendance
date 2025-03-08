@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios"; // Import axios
-import { getLocalStorage, removeLocalStorage } from "@/utils/storage";
-import { LOCAL_STORAGE_USER_KEY } from "@/constants";
+import axios from "axios";
+import { getLocalStorage } from "@/utils/storage";
+import { LOCAL_STORAGE_USER_KEY, SERVER_URL } from "@/constants";
 import { RootStateType } from "@/redux/store";
 import { setLoginState, logout } from "@/redux/slices/authSlice";
 import { IAuthState, RoleType } from "@/types";
@@ -69,7 +69,7 @@ export const useAuth = (): IUseAuthReturn => {
 
   const handleLogout = async () => {
     try {
-      await axios.delete("http://localhost:8000/logout");
+      await axios.delete(`${SERVER_URL}/logout`);
 
       dispatch(logout());
       router.push("/");

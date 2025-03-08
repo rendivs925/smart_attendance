@@ -24,9 +24,9 @@ export function resolveIdentifier(
 ) {
   const { email, nim, nidn } = identifiers;
 
-  if (role === "student" && nim) return nim;
-  if (role === "teacher" && nidn) return nidn;
-  if (role === "admin" && email) return email;
+  if (role === "Student" && nim) return nim;
+  if (role === "Teacher" && nidn) return nidn;
+  if (role === "Admin" && email) return email;
 
   throw new Error(`Identifier is required for role: ${role}`);
 }

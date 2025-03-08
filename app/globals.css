@@ -1,4 +1,4 @@
-@import "./reset.css";
+/* @import "./reset.css"; */
 
 @tailwind base;
 @tailwind components;
@@ -77,7 +77,6 @@
   }
 }
 
-/* Apply base styles */
 @layer base {
   * {
     @apply border-border;
@@ -87,246 +86,34 @@
     @apply bg-background overflow-x-hidden text-foreground;
   }
 
-  /* Headings */
   h1 {
     @apply scroll-m-20 font-extrabold tracking-tight;
-    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl; /* Responsive text sizes for h1 */
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl;
   }
 
   h2 {
     @apply mt-10 scroll-m-20 border-b pb-2 font-semibold tracking-tight transition-colors first:mt-0;
-    @apply text-2xl sm:text-3xl md:text-4xl; /* Responsive text sizes for h2 */
+    @apply text-2xl sm:text-3xl md:text-4xl;
   }
 
   h3 {
     @apply mt-8 scroll-m-20 font-semibold tracking-tight;
-    @apply text-xl sm:text-2xl md:text-3xl; /* Responsive text sizes for h3 */
+    @apply text-xl sm:text-2xl md:text-3xl;
   }
 
   h4 {
     @apply scroll-m-20 font-semibold tracking-tight mb-6;
-    @apply text-lg sm:text-xl; /* Responsive text sizes for h4 */
+    @apply text-lg sm:text-xl;
   }
 
-  /* Text Elements */
   p {
     @apply leading-7 mt-6 text-muted-foreground;
-    @apply text-base sm:text-lg md:text-xl; /* Responsive paragraph sizes */
-  }
-
-  li {
-    @apply text-muted-foreground;
-    @apply text-base sm:text-lg; /* Responsive list item sizes */
-  }
-
-  strong {
-    @apply text-primary;
-    @apply text-lg sm:text-xl; /* Responsive strong text sizes */
-  }
-
-  a {
-    @apply font-medium relative text-foreground transition;
-    @apply text-base sm:text-lg; /* Responsive text sizes for links */
-  }
-
-  blockquote {
-    @apply mt-6 border-l-2 pl-6 italic;
-  }
-
-  /* Table Styles */
-  .table-wrapper {
-    @apply my-6 w-full overflow-y-auto;
-  }
-
-  table {
-    @apply w-full;
-  }
-
-  tr {
-    @apply m-0 border-t p-0 even:bg-muted;
-  }
-
-  th {
-    @apply border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right;
-  }
-
-  td {
-    @apply border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right;
-  }
-
-  /* Additional Classes */
-  .sm-text {
-    @apply text-sm font-medium leading-none;
-  }
-
-  .price {
-    @apply mt-0;
+    @apply text-base sm:text-lg md:text-xl;
   }
 }
 
 @layer utilities {
-  .shadow {
-    border: 1px solid hsla(var(--border));
-    @apply shadow-sm shadow-muted-foreground/25;
-  }
-
-  .mapWrap {
-    margin-inline: calc(-50svw - -50%);
-    @apply relative h-[300px] min-w-[100svw] lg:h-[400px] xl:h-[500px];
-  }
-
-  .map {
-    @apply h-full w-full absolute;
-  }
-
-  .custom-list {
-    @apply list-none flex flex-col gap-4 list-inside pl-0;
-  }
-
-  .custom-list li {
-    @apply relative ml-10;
-  }
-
-  .custom-list li::before {
-    @apply content-["\2022"] absolute top-1/2 leading-[0] -translate-y-1/2 text-3xl -left-10 text-primary/75;
-  }
-
-  .custom-p {
-    @apply font-medium text-foreground my-0;
-  }
-}
-
-.ql-editor {
-  @apply !max-h-[500px] !overflow-auto;
 }
 
 @layer components {
-  .navbar {
-    @apply h-16 lg:h-20;
-  }
-
-  .glass {
-    @apply bg-background/70 backdrop-filter backdrop-blur-lg border border-foreground border-opacity-10 shadow-lg p-6;
-  }
-
-  .sidebar-link-hover {
-    @apply bg-primary;
-  }
-
-  .dashboard-summary {
-    grid-area: dashboard-summary;
-  }
-
-  .total-sales {
-    grid-area: total-sales;
-  }
-
-  .line-chart {
-    grid-area: line-chart;
-  }
-
-  .chart-canvas {
-    width: 100% !important; /* Ensures the canvas takes the full width of its container */
-    height: 100% !important; /* Maintains the aspect ratio */
-    max-width: 100%; /* Ensures the canvas doesn't exceed the width of the container */
-    @apply bg-background;
-  }
-
-  .pt-navbar {
-    @apply pt-16 lg:pt-20;
-  }
-
-  .mt-navbar {
-    @apply mt-16 lg:mt-20;
-  }
-
-  .mb-navbar {
-    @apply mb-16 lg:mb-20;
-  }
-
-  .py-navbar {
-    @apply py-16 lg:py-20;
-  }
-
-  .py-navbar {
-    @apply py-16 lg:py-20;
-  }
-
-  .pb-navbar {
-    @apply pb-16 lg:pb-20;
-  }
-
-  .gap-navbar {
-    @apply gap-16 lg:gap-20;
-  }
-
-  .cart-item {
-    display: grid;
-    grid:
-      "image ." 1fr
-      "detail close-btn" auto
-      "price qty-btn" auto
-      / 1fr 1fr;
-  }
-
-  .cart-item .image {
-    grid-area: image;
-  }
-
-  .cart-item .detail {
-    grid-area: detail;
-  }
-
-  .cart-item .qty-btn {
-    grid-area: qty-btn;
-    @apply justify-self-end place-self-end h-min;
-  }
-
-  .cart-item .price {
-    grid-area: price;
-    @apply mb-0;
-  }
-
-  .cart-item .close-btn {
-    grid-area: close-btn;
-    @apply justify-self-end place-self-start h-min;
-  }
-
-  @media (width > 1024px) {
-    .cart-item {
-      grid:
-        "image detail qty-btn price" auto
-        "image . . close-btn" 1fr
-        / auto 1fr auto auto;
-    }
-
-    .cart-item .image {
-      @apply mb-0;
-    }
-
-    .cart-item .detail {
-      @apply justify-self-start ml-6;
-    }
-
-    .cart-item .qty-btn {
-      @apply place-self-start justify-self-end mr-12;
-    }
-
-    .cart-item .price {
-      @apply mt-0 place-self-start justify-self-end;
-    }
-
-    .cart-item .close-btn {
-      @apply place-self-end justify-self-end;
-    }
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 }

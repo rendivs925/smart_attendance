@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/auth/useAuth";
 
-const AuthButtons: React.FC = () => {
+const HeroButton: React.FC = () => {
   const { isLoggedIn, handleLogin, handleLogout, redirectToDashboard } =
     useAuth();
 
@@ -31,4 +31,4 @@ const AuthButtons: React.FC = () => {
   );
 };
 
-export default AuthButtons;
+export default HeroButton;

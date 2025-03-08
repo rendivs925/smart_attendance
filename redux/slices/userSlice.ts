@@ -4,7 +4,7 @@ interface UserState {
   user: {
     username: string;
     email: string;
-    role: "student" | "teacher" | "admin" | null;
+    role: "Student" | "Teacher" | "Admin" | null;
   } | null;
   isLoggedIn: boolean;
 }

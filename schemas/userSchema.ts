@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const userSchema = z
   .object({
-    role: z.enum(["student", "teacher", "admin"], {
+    role: z.enum(["Student", "Teacher", "Admin"], {
       errorMap: () => ({ message: "Role is required" }),
     }),
     password: z.string().min(8, {
@@ -29,13 +29,13 @@ export const userSchema = z
   })
   .refine(
     (data) => {
-      if (data.role === "student" && !data.nim) {
+      if (data.role === "Student" && !data.nim) {
         return false;
       }
-      if (data.role === "teacher" && !data.nidn) {
+      if (data.role === "Teacher" && !data.nidn) {
         return false;
       }
-      if (data.role === "admin" && !data.email) {
+      if (data.role === "Admin" && !data.email) {
         return false;
       }
       return true;
